@@ -1,10 +1,14 @@
 apply plugin: 'java'
+apply plugin: 'maven'
 
 sourceCompatibility = 1.6
 version = '1.0'
 
 repositories {
     mavenCentral()
+    maven {
+        url 'https://chuross.github.com/maven-repository'
+    }
 }
 
 sourceSets {
@@ -24,11 +28,13 @@ uploadArchives {
             repository url: targetMavenRepositoryDir
             pom.version = '0.0.1-SNAPSHOT'
             pom.groupId = 'com.chuross'
-            pom.artifactId = 'android-common-library'
+            pom.artifactId = 'test-library'
         }
     }
 }
 
 dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.11'
+    compile 'com.chuross:common-library:0.0.1-SNAPSHOT'
+    compile 'org.eclipse.jetty:jetty-server:9.2.1.v20140609'
+    compile group: 'junit', name: 'junit', version: '4.11'
 }
