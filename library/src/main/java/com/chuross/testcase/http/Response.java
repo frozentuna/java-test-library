@@ -1,4 +1,4 @@
-package com.chuross;
+package com.chuross.testcase.http;
 
 import org.apache.http.Header;
 

@@ -1,7 +1,5 @@
-package com.chuross.testcase;
+package com.chuross.testcase.http;
 
-import com.chuross.RequestPattern;
-import com.chuross.Response;
 import com.chuross.common.library.util.IOUtils;
 import com.google.common.collect.Lists;
 import org.apache.http.Header;
