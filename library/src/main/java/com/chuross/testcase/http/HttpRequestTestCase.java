@@ -11,6 +11,8 @@ import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.AbstractHandler;
 import org.junit.After;
 import org.junit.Before;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -26,6 +28,7 @@ import java.util.Map;
 
 public class HttpRequestTestCase {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(HttpRequestTestCase.class);
     public static final String HOST = "localhost";
     public static final int PORT = 3000;
     public static final String URL = String.format("http://%s:%d", HOST, PORT);
@@ -50,6 +53,7 @@ public class HttpRequestTestCase {
         InputStream inputStream = request.getInputStream();
         RequestPattern pattern =  method.equals("POST") || method.equals("PUT") ? new RequestPattern(target, IOUtils.toString(inputStream, Charset.defaultCharset()), getRequestHeader(request)) : new RequestPattern(target, getParameters(request), getRequestHeader(request));
         org.apache.commons.io.IOUtils.closeQuietly(inputStream);
+        LOGGER.info("jetty:RequestPattern:{}, url:{}, method:{}", pattern, target, method);
         if(!responseMap.containsKey(pattern)) {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
             baseRequest.setHandled(true);
@@ -134,6 +138,7 @@ public class HttpRequestTestCase {
             throw new IllegalArgumentException();
         }
         responseMap.put(pattern, response);
+        LOGGER.info("RequestPattern:{}", pattern);
     }
 
     public String getUrl(String path) {
