@@ -2,6 +2,7 @@ package com.chuross.testcase.http;
 
 import com.chuross.common.library.util.IOUtils;
 import com.google.common.collect.Lists;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.http.Header;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicHeader;
@@ -81,6 +82,7 @@ public class HttpRequestTestCase {
         List<NameValuePair> parameters = Lists.newArrayList();
         String[] values = request.getParameterValues(name);
         for(String value : values) {
+            value = !StringUtils.isBlank(value) ? value : null;
             parameters.add(new BasicNameValuePair(name, value));
         }
         return parameters;
