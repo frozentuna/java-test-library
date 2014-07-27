@@ -28,17 +28,17 @@ public class RequestPattern {
 
     public RequestPattern(String path, String parameter, List<Header> requestHeaders) {
         this.path = path;
-        this.parameter = parameter;
-        this.requestHeaders = requestHeaders;
+        this.parameter = parameter != null ? parameter : "";
+        this.requestHeaders = requestHeaders != null ? requestHeaders : new ArrayList<Header>();
 
-        if(this.requestHeaders != null && this.requestHeaders.size() > 0) {
+        if(this.requestHeaders.size() > 0) {
             sortRequestHeaders();
         }
     }
 
     private static String getParameterString(List<NameValuePair> parameters) {
         if(parameters == null || parameters.size() <= 0) {
-            return "";
+            return null;
         }
 
         Collections.sort(parameters, new Comparator<NameValuePair>() {
