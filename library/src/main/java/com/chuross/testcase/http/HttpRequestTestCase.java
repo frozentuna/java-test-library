@@ -53,7 +53,7 @@ public class HttpRequestTestCase {
         InputStream inputStream = request.getInputStream();
         RequestPattern pattern =  method.equals("POST") || method.equals("PUT") ? new RequestPattern(target, IOUtils.toString(inputStream, Charset.defaultCharset()), getRequestHeader(request)) : new RequestPattern(target, getParameters(request), getRequestHeader(request));
         org.apache.commons.io.IOUtils.closeQuietly(inputStream);
-        LOGGER.info("jetty:RequestPattern:{}, url:{}, method:{}", pattern, target, method);
+        LOGGER.info("jetty:pattern-path:{}, pattern-parameter:{}, pattern-header:{}, path:{}, method:{}", pattern.getPath(), pattern.getParameter(), pattern.getRequestHeaders(), target, method);
         if(!responseMap.containsKey(pattern)) {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
             baseRequest.setHandled(true);
@@ -138,7 +138,7 @@ public class HttpRequestTestCase {
             throw new IllegalArgumentException();
         }
         responseMap.put(pattern, response);
-        LOGGER.info("RequestPattern:{}", pattern);
+        LOGGER.info("jetty:pattern-path:{}, pattern-parameter:{}, pattern-header:{}", pattern.getPath(), pattern.getParameter(), pattern.getRequestHeaders());
     }
 
     public String getUrl(String path) {
