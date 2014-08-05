@@ -22,8 +22,8 @@ public class RequestPattern {
         this(path, "", new ArrayList<Header>());
     }
 
-    public RequestPattern(String path, List<NameValuePair> parameters, List<Header> requestHeaders) {
-        this(path, getParameterString(parameters), requestHeaders);
+    public RequestPattern(String path, List<NameValuePair> parameters, List<Header> requestHeaders, boolean sorted) {
+        this(path, getParameterString(parameters, sorted), requestHeaders);
     }
 
     public RequestPattern(String path, String parameter, List<Header> requestHeaders) {
@@ -36,9 +36,13 @@ public class RequestPattern {
         }
     }
 
-    private static String getParameterString(List<NameValuePair> parameters) {
+    private static String getParameterString(List<NameValuePair> parameters, boolean sorted) {
         if(parameters == null || parameters.size() <= 0) {
             return null;
+        }
+
+        if(!sorted) {
+            return URLEncodedUtils.format(parameters, Charset.forName("UTF-8"));
         }
 
         Collections.sort(parameters, new Comparator<NameValuePair>() {
@@ -51,7 +55,6 @@ public class RequestPattern {
                 return o1.getValue().compareTo(o2.getValue());
             }
         });
-
         return URLEncodedUtils.format(parameters, Charset.forName("UTF-8"));
     }
 
