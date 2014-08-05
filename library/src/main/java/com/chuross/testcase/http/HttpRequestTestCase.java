@@ -140,7 +140,7 @@ public class HttpRequestTestCase {
             throw new IllegalArgumentException();
         }
         responseMap.put(pattern, response);
-        LOGGER.info("jetty:pattern-path:{}, pattern-parameter:{}, pattern-header:{}", pattern.getPath(), pattern.getParameter(), pattern.getRequestHeaders());
+        LOGGER.info("expected:pattern-path:{}, pattern-parameter:{}, pattern-header:{}", pattern.getPath(), pattern.getParameter(), pattern.getRequestHeaders());
     }
 
     public String getUrl(String path) {
