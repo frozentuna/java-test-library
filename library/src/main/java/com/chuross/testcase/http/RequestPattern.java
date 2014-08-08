@@ -22,6 +22,10 @@ public class RequestPattern {
         this(path, "", new ArrayList<Header>());
     }
 
+    public RequestPattern(String path, List<NameValuePair> parameters, List<Header> requestHeaders) {
+        this(path, parameters, requestHeaders, true);
+    }
+
     public RequestPattern(String path, List<NameValuePair> parameters, List<Header> requestHeaders, boolean sorted) {
         this(path, getParameterString(parameters, sorted), requestHeaders);
     }
