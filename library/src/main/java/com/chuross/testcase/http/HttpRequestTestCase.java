@@ -25,6 +25,7 @@ public class HttpRequestTestCase {
 
     public static final String HOST = "localhost";
     public static int PORT = 3000;
+    public static final String BASE_URL = String.format(Locale.JAPAN, "http://%s:%d", HOST, PORT);
     private static final Logger LOGGER = LoggerFactory.getLogger(HttpRequestTestCase.class);
     private Server server;
     private Map<RequestPattern, Response> responseMap = Maps.newHashMap();
@@ -123,5 +124,17 @@ public class HttpRequestTestCase {
                 response.addHeader(name, value.toString());
             }
         }
+    }
+
+    private void putResponse(RequestPattern pattern, Response response) {
+        if(pattern == null || response == null) {
+            throw new IllegalArgumentException();
+        }
+        responseMap.put(pattern, response);
+        LOGGER.info("expected:pattern-path:{}, pattern-parameter:{}, pattern-header:{}", pattern.getPath(), pattern.getParameters(), pattern.getRequestHeaders());
+    }
+
+    public String getUrl(String path) {
+        return String.format(Locale.JAPAN, "%s/%s", BASE_URL, path.startsWith("/") ? path.substring(1) : path);
     }
 }
