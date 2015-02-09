@@ -35,7 +35,7 @@ uploadArchives {
     repositories {
         mavenDeployer {
             repository url: targetMavenRepositoryDir
-            pom.version = '0.0.1-SNAPSHOT'
+            pom.version = '0.1.0'
             pom.groupId = 'com.chuross'
             pom.artifactId = 'test-library'
         }
@@ -43,7 +43,11 @@ uploadArchives {
 }
 
 dependencies {
-    compile 'com.chuross:common-library:0.0.1-SNAPSHOT'
+    compile 'org.slf4j:slf4j-api:1.7.10'
+    compile 'org.slf4j:slf4j-simple:1.7.10'
+    compile 'com.google.guava:guava:18.0'
+    compile 'org.apache.commons:commons-lang3:3.3.2'
+    compile 'commons-io:commons-io:2.4'
     compile 'org.eclipse.jetty:jetty-server:9.2.1.v20140609'
     compile group: 'junit', name: 'junit', version: '4.11'
 }

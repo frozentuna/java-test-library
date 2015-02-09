@@ -1,23 +1,28 @@
 package com.chuross.testcase.http;
 
-import org.apache.http.Header;
+import com.google.common.collect.ListMultimap;
+import com.google.common.net.MediaType;
 
-import java.util.List;
+import java.nio.charset.Charset;
 
 public class Response {
 
     private int status;
     private String body;
-    private String encoding;
-    private String contentType;
-    private List<Header> responseHeaders;
+    private ListMultimap<String, Object> responseHeaders;
+    private MediaType contentType;
+    private Charset encoding;
 
-    public Response(int status, String body, String encoding, String contentType, List<Header> responseHeaders) {
+    public Response(int status, String body, ListMultimap<String, Object> responseHeaders, MediaType contentType) {
+        this(status, body, responseHeaders, contentType, Charset.defaultCharset());
+    }
+
+    public Response(int status, String body, ListMultimap<String, Object> responseHeaders, MediaType contentType, Charset encoding) {
         this.status = status;
         this.body = body;
-        this.encoding = encoding;
-        this.contentType = contentType;
         this.responseHeaders = responseHeaders;
+        this.contentType = contentType;
+        this.encoding = encoding;
     }
 
     public int getStatus() {
@@ -28,16 +33,15 @@ public class Response {
         return body;
     }
 
-    public String getEncoding() {
-        return encoding;
-    }
-
-    public String getContentType() {
-        return contentType;
-    }
-
-    public List<Header> getResponseheaders() {
+    public ListMultimap<String, Object> getResponseHeaders() {
         return responseHeaders;
     }
 
+    public MediaType getContentType() {
+        return contentType;
+    }
+
+    public Charset getEncoding() {
+        return encoding;
+    }
 }
