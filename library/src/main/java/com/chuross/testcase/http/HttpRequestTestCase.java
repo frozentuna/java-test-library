@@ -126,7 +126,7 @@ public class HttpRequestTestCase {
         }
     }
 
-    private void putResponse(RequestPattern pattern, Response response) {
+    public void putResponse(RequestPattern pattern, Response response) {
         if(pattern == null || response == null) {
             throw new IllegalArgumentException();
         }
