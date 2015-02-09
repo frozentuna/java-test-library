@@ -8,6 +8,7 @@ import org.apache.commons.io.IOUtils;
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.AbstractHandler;
+import org.junit.After;
 import org.junit.Before;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,6 +45,12 @@ public class HttpRequestTestCase {
             server.stop();
         }
         server.start();
+    }
+
+    @After
+    public void afterServerTest() throws Exception {
+        server.stop();
+        server.destroy();
     }
 
     private void onHandle(final String target, final Request baseRequest, final HttpServletRequest request, final HttpServletResponse response) throws IOException, ServletException {
