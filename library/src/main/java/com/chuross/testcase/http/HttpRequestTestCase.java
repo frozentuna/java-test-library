@@ -114,7 +114,7 @@ public class HttpRequestTestCase {
     private List<String> getRegisteredHeaderNames() {
         List<String> names = Lists.newArrayList();
         for(RequestPattern pattern : responseMap.keySet()) {
-            for(String name : pattern.getParameters().keySet()) {
+            for(String name : pattern.getRequestHeaders().keySet()) {
                 names.add(name);
             }
         }
