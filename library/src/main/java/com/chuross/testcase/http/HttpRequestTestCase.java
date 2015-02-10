@@ -5,6 +5,7 @@ import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.AbstractHandler;
@@ -19,6 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.InetSocketAddress;
+import java.net.URLDecoder;
 import java.nio.charset.Charset;
 import java.util.*;
 
@@ -57,7 +59,7 @@ public class HttpRequestTestCase {
         String method = request.getMethod();
         InputStream inputStream = request.getInputStream();
         try {
-            ListMultimap<String, Object> parameters = getParameters(request);
+            ListMultimap<String, Object> parameters = method.equals("POST") || method.equals("PUT") ? getParametersByQuery(IOUtils.toString(inputStream)) : getParameters(request);
             ListMultimap<String, Object> requestHeaders = getRequestHeader(request);
             RequestPattern pattern = new RequestPattern(target, parameters, requestHeaders);
             LOGGER.info("jetty:pattern-path:{}, pattern-parameter:{}, pattern-header:{}, path:{}, method:{}", pattern.getPath(), pattern.getParameters(), pattern.getRequestHeaders(), target, method);
@@ -78,7 +80,7 @@ public class HttpRequestTestCase {
         }
     }
 
-    private ListMultimap<String, Object> getParameters(HttpServletRequest request) {
+    private static ListMultimap<String, Object> getParameters(HttpServletRequest request) {
         ListMultimap<String, Object> parameters = ArrayListMultimap.create();
         Enumeration<String> names = request.getParameterNames();
         while(names.hasMoreElements()) {
@@ -86,6 +88,29 @@ public class HttpRequestTestCase {
             parameters.putAll(name, Arrays.asList(request.getParameterValues(name)));
         }
         return parameters;
+    }
+
+    private static ListMultimap<String, Object> getParametersByQuery(String query) {
+        ListMultimap<String, Object> parameters = ArrayListMultimap.create();
+        if(StringUtils.isBlank(query)) {
+            return parameters;
+        }
+        String[] parameterStrings = query.split("&");
+        for(String parameterString : parameterStrings) {
+            String[] keyValue = parameterString.split("=");
+            String key = keyValue[0];
+            String value = keyValue[1];
+            parameters.put(key, decode(value));
+        }
+        return parameters;
+    }
+
+    private static String decode(String value) {
+        try {
+            return URLDecoder.decode(value, "UTF-8");
+        } catch(Exception e) {
+            throw new RuntimeException();
+        }
     }
 
     private ListMultimap<String, Object> getRequestHeader(HttpServletRequest request) {
