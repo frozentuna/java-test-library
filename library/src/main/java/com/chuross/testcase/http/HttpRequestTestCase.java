@@ -95,7 +95,7 @@ public class HttpRequestTestCase {
         if(StringUtils.isBlank(query)) {
             return parameters;
         }
-        String[] parameterStrings = query.split("&");
+        String[] parameterStrings = query.substring(1).split("&");
         for(String parameterString : parameterStrings) {
             String[] keyValue = parameterString.split("=");
             String key = keyValue[0];
