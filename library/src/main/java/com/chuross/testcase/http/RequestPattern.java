@@ -1,5 +1,6 @@
 package com.chuross.testcase.http;
 
+import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -10,8 +11,12 @@ public class RequestPattern {
     private ListMultimap<String, Object> parameters;
     private ListMultimap<String, Object> requestHeaders;
 
+    public RequestPattern(String path) {
+        this(path, ArrayListMultimap.<String, Object>create(), ArrayListMultimap.<String, Object>create());
+    }
+
     public RequestPattern(String path, ListMultimap<String, Object> parameters) {
-        this(path, parameters, null);
+        this(path, parameters, ArrayListMultimap.<String, Object>create());
     }
 
     public RequestPattern(String path, ListMultimap<String, Object> parameters, ListMultimap<String, Object> requestHeaders) {
