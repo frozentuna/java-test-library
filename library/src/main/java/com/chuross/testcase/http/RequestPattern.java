@@ -12,17 +12,17 @@ public class RequestPattern {
     private ListMultimap<String, Object> requestHeaders;
 
     public RequestPattern(String path) {
-        this(path, ArrayListMultimap.<String, Object>create(), ArrayListMultimap.<String, Object>create());
+        this(path, null, null);
     }
 
     public RequestPattern(String path, ListMultimap<String, Object> parameters) {
-        this(path, parameters, ArrayListMultimap.<String, Object>create());
+        this(path, parameters, null);
     }
 
     public RequestPattern(String path, ListMultimap<String, Object> parameters, ListMultimap<String, Object> requestHeaders) {
         this.path = path;
-        this.parameters = parameters;
-        this.requestHeaders = requestHeaders;
+        this.parameters = parameters != null ? parameters : ArrayListMultimap.<String, Object>create();
+        this.requestHeaders = requestHeaders != null ? requestHeaders : ArrayListMultimap.<String, Object>create();
     }
 
     public String getPath() {
